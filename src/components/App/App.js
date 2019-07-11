@@ -13,7 +13,6 @@ import PageNavOverlay from 'components/PageNavOverlay';
 import ToolsOverlay from 'components/ToolsOverlay';
 import SignatureOverlay from 'components/SignatureOverlay';
 import CursorOverlay from 'components/CursorOverlay';
-import MeasurementOverlay from 'components/MeasurementOverlay';
 import DocumentContainer from 'components/DocumentContainer';
 import LeftPanel from 'components/LeftPanel';
 import SearchPanel from 'components/SearchPanel';
@@ -31,7 +30,7 @@ import ProgressModal from 'components/ProgressModal';
 import FilePickerHandler from 'components/FilePickerHandler';
 import CopyTextHandler from 'components/CopyTextHandler';
 import PrintHandler from 'components/PrintHandler';
-import ZoomOverlay from 'components/ZoomOverlay';
+import ZoomOverlay from 'components/zoomOverlay';
 
 import { isDesktop } from 'helpers/device';
 import actions from 'actions';
@@ -103,7 +102,6 @@ class App extends React.PureComponent {
           <SignatureOverlay />
           <CursorOverlay />
           <ZoomOverlay />
-          <MeasurementOverlay />
 
           <AnnotationPopup />
           <TextPopup />

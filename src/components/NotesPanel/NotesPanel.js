@@ -56,7 +56,6 @@ class NotesPanel extends React.PureComponent {
 
   onDocumentUnloaded = () => {
     this.visibleNoteIds.clear();
-    this.rootAnnotations = [];
     this.setState({ notesToRender: [] });
   }
 
@@ -222,7 +221,6 @@ const mapStatesToProps = state => ({
   sortStrategy: selectors.getSortStrategy(state),
   isDisabled: selectors.isElementDisabled(state, 'notesPanel'),
   pageLabels: selectors.getPageLabels(state),
-  pageRotation: selectors.getRotation(state),
   customNoteFilter: selectors.getCustomNoteFilter(state)
 });
 

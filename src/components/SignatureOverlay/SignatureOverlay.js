@@ -60,10 +60,8 @@ class SignatureOverlay extends React.PureComponent {
       freeHandAnnot && !freeHandAnnot.getPaths().length
     ) {
       // location of signatureTool will be set when clicking on a signature widget
-      // we want to clear location when the overlay is closed without any default signatures selected
+      // we want to clear location when the overlay is closed without selecting any default signatures 
       // to prevent signature from being drawn to the previous location
-      // however the overlay will be closed without any default signature selected if we clicked the "add signature" button(which opens the signature modal)
-      // we don't want to clear the location in the case because we still want the signature to be automatically added to the widget after the create button is hit in the modal 
       this.signatureTool.clearLocation();
     }
   }
@@ -82,7 +80,7 @@ class SignatureOverlay extends React.PureComponent {
     const { left, right } = getOverlayPositionBasedOn('signatureToolButton', this.overlay);
     this.setState({ 
       // TODO: remove the hard-coded value. 
-      left: left === -9999 ? window.innerWidth / 2 - 95 : left - 95,
+      left: left === 0 ? window.innerWidth / 2 - 95 : left - 95,
       right 
     });
   }

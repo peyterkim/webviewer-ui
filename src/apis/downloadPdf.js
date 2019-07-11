@@ -8,16 +8,13 @@ export default store => includeAnnotations => {
     console.warn('Download has been disabled.');
     return;
   }
-  
-  const documentType = selectors.getDocumentType(state);
-  const { PDF, BLACKBOX, OFFICE } = documentTypes;
-  if (documentType !== PDF && documentType !== OFFICE && documentType !== BLACKBOX) {
+  if (selectors.getDocumentType(state) !== documentTypes.PDF && selectors.getDocumentType(state) !== documentTypes.BLACKBOX) {
     console.warn('Document type is not PDF. Cannot be downloaded.');
     return;
   }
   downloadPdf(store.dispatch, {
     documentPath: selectors.getDocumentPath(state),
     filename: state.document.filename,
-    includeAnnotations
+    includeAnnotations: includeAnnotations
   });
 };

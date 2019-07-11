@@ -1,0 +1,7 @@
+@import '../../constants/popup';
+
+.AnnotationMovePopup {
+  @extend %popup-mobile;
+  
+  margin: -5px;
+}

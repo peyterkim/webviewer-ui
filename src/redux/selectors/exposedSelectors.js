@@ -44,13 +44,11 @@ export const getActiveToolGroup = state => state.viewer.activeToolGroup;
 export const getNotePopupId = state => state.viewer.notePopupId;
 export const isNoteExpanded = (state, id) => !!state.viewer.expandedNotes[id];
 export const isNoteEditing = (state, id) => state.viewer.isNoteEditing && isNoteExpanded(state, id);
-export const isAnnotationFocused = (state, id) => Object.keys(state.viewer.expandedNotes).length === 1 && isNoteExpanded(state, id); // Considered focused when it is the only annotation selected
 export const getFitMode = state => state.viewer.fitMode;
 export const getZoom = state => state.viewer.zoom;
 export const getDisplayMode = state => state.viewer.displayMode;
 export const getCurrentPage = state => state.viewer.currentPage;
 export const getSortStrategy = state => state.viewer.sortStrategy;
-export const getRotation = state => state.viewer.rotation;
 export const getNoteDateFormat = state => state.viewer.noteDateFormat;
 export const isFullScreen = state => state.viewer.isFullScreen;
 export const doesDocumentAutoLoad = state => state.viewer.doesAutoLoad;
@@ -78,7 +76,6 @@ export const getCurrentPalette = (state, colorMapKey) => state.viewer.colorMap[c
 export const getIconColor = (state, colorMapKey) => state.viewer.colorMap[colorMapKey] && state.viewer.colorMap[colorMapKey].iconColor; 
 export const getSwipeOrientation = state => state.viewer.swipeOrientation;
 export const getCustomNoteFilter = state => state.viewer.customNoteFilter;
-export const getZoomList = state => state.viewer.zoomList;
 
 // warning message
 export const getWarningMessage = state => state.viewer.warning && state.viewer.warning.message || '';

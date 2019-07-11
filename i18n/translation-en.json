@@ -142,27 +142,13 @@
     "signatureOverlay": {
       "addSignature": "Add a signature"
     },
-    "measurementOverlay": {
-      "scale": "Scale Ratio",
-      "angle": "Angle",
-      "distance": "Distance",
-      "perimeter": "Perimeter",
-      "area": "Area",
-      "distanceMeasurement": "Distance Measurement",
-      "perimeterMeasurement": "Perimeter Measurement",
-      "areaMeasurement": "Area Measurement"
-    },
-    "measurementOption": {
-      "scale": "Scale"
-    },
     "slider": {
       "opacity": "Opacity",
       "thickness": "Thickness",
       "text": "Text Size"
     },
     "shared": {
-      "page": "Page",
-      "precision": "Precision"
+      "page": "Page"
     }
   },
   "shortcut": {
@@ -191,7 +177,6 @@
   },
   "tool": {
     "pan": "Pan",
-    "select": "Select",
-    "Marquee": "Marquee Zoom"
+    "select": "Select"
   }
 }

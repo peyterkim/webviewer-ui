@@ -16,15 +16,13 @@ import './ZoomOverlay.scss';
 
 class ZoomOverlay extends React.PureComponent {
   static propTypes = {
-    isDisabled: PropTypes.bool,
     isOpen: PropTypes.bool,
     closeElements: PropTypes.func.isRequired,
-    t: PropTypes.func.isRequired,
-    zoomList: PropTypes.arrayOf(PropTypes.number)
+    t: PropTypes.func.isRequired
   }
 
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.dropdown = React.createRef();
     this.state = {
       left: 0,
@@ -33,13 +31,12 @@ class ZoomOverlay extends React.PureComponent {
   }
 
   componentDidMount() {
-    document.addEventListener('mousedown', this.handleMouseDown);
     window.addEventListener('resize', this.handleWindowResize);
   }
 
   componentDidUpdate(prevProps) {
     if (!prevProps.isOpen && this.props.isOpen) {
-      this.props.closeElements(['viewControlsOverlay', 'toolsOverlay', 'searchOverlay', 'menuOverlay', 'toolStylePopup']);
+      this.props.closeElements([ 'viewControlsOverlay', 'toolsOverlay', 'searchOverlay', 'menuOverlay', 'toolStylePopup' ]);
       const { left, right } = getOverlayPositionBasedOn('zoomOverlayButton', this.dropdown);
       this.setState({
         left: left - 20,
@@ -49,7 +46,6 @@ class ZoomOverlay extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleMouseDown);
     window.removeEventListener('resize', this.handleWindowResize);
   }
 
@@ -61,49 +57,39 @@ class ZoomOverlay extends React.PureComponent {
     });
   }
 
-  handleMouseDown = e => {
-    const clickedOutside = this.dropdown.current && !this.dropdown.current.contains(e.target);
-    const toggleElementOverlay = document.querySelector('.ToggleElementOverlay');
-    const clickedOnZoomIndicator = toggleElementOverlay && toggleElementOverlay.contains(e.target);
-    if (clickedOutside && !clickedOnZoomIndicator) {
-      this.props.closeElements(['zoomOverlay']);
-    }
-  }
-
-  render() {
-    const { isOpen, isDisabled, t, closeElements, zoomList } = this.props;
+  render() { 
+    const { isOpen, t } = this.props;
     const className = [
       'ZoomOverlay',
       isOpen ? 'open' : 'closed'
     ].join(' ').trim();
     const { left, right } = this.state;
-
-    if (isDisabled) {
-      return null;
-    }
-
+    const zoomList = [0.1, 0.25, 0.5, 1.25, 1.5, 2, 4, 8, 16, 64];
     return (
-      <div className={className} data-element="zoomOverlay" style={{ left, right }} ref={this.dropdown}>
+      <div className = {className} data-element="zoomOverlay" style={{ left, right }} ref={this.dropdown}>
         <OverlayItem onClick={core.fitToWidth} buttonName={t('action.fitToWidth')} />
         <OverlayItem onClick={core.fitToPage} buttonName={t('action.fitToPage')} />
         <div className="spacer" />
-        {zoomList.map((zoomValue, i) => 
-          <OverlayItem key={i}
-            onClick={() => zoomTo(zoomValue)}
-            buttonName={zoomValue * 100 + '%'}
+        {zoomList.map((zoomValue, i) => {
+          return <OverlayItem key={i} 
+          onClick={
+            () => { 
+              zoomTo(zoomValue);
+            } 
+          } 
+          buttonName={zoomValue * 100 + '%'}
           />
-        )}
+          })
+        }
         <div className="spacer" />
-        <ToolButton toolName="MarqueeZoomTool" label={t('tool.Marquee')} onClick={() => closeElements(['zoomOverlay'])} />
+        <ToolButton toolName="MarqueeZoomTool" showColor="never" />
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  isDisabled: selectors.isElementDisabled(state, 'zoomOverlay'),
-  isOpen: selectors.isElementOpen(state, 'zoomOverlay'),
-  zoomList: selectors.getZoomList(state)
+  isOpen: selectors.isElementOpen(state, 'zoomOverlay')
 });
 
 const mapDispatchToProps = {

@@ -40,6 +40,7 @@ class AnnotationPopup extends React.PureComponent {
       top: 0,
       canModify: false,
       isStylePopupOpen: false,
+      isMovePopupOpen: false,
       isMouseLeftDown: false,
     };
     this.state = this.initialState;
@@ -61,9 +62,10 @@ class AnnotationPopup extends React.PureComponent {
     const isAnnotationSelected = Object.keys(this.state.annotation).length !== 0;
     const isClosingAnnotationPopup = this.props.isOpen === false && this.props.isOpen !== prevProps.isOpen;
     const isStylePopupOpen = !prevState.isStylePopupOpen && this.state.isStylePopupOpen;
+    const isMovePopupOpen = !prevState.isMovePopupOpen && this.state.isMovePopupOpen;
     const isContainerShifted = prevProps.isLeftPanelOpen !== this.props.isLeftPanelOpen || prevProps.isRightPanelOpen !== this.props.isRightPanelOpen;
 
-    if (isAnnotationSelected && !isMouseLeftDown && !isContainerShifted && !isClosingAnnotationPopup && !this.props.isDisabled || isStylePopupOpen) {
+    if (isAnnotationSelected && !isMouseLeftDown && !isContainerShifted && !isClosingAnnotationPopup && !this.props.isDisabled || isStylePopupOpen || isMovePopupOpen) {
       this.positionAnnotationPopup();
       this.props.openElement('annotationPopup');
     }
@@ -158,6 +160,10 @@ class AnnotationPopup extends React.PureComponent {
     this.setState({ isStylePopupOpen: true });
   }
 
+  openMovePopup = () => {
+    this.setState({ isMovePopupOpen: true });
+  }
+
   deleteAnnotation = () => {
     core.deleteAnnotations([this.state.annotation]);
     this.props.closeElement('annotationPopup');
@@ -169,7 +175,7 @@ class AnnotationPopup extends React.PureComponent {
   }
 
   render() {
-    const { annotation, left, top, canModify, isStylePopupOpen } = this.state;
+    const { annotation, left, top, canModify, isStylePopupOpen, isMovePopupOpen } = this.state;
     const { isNotesPanelDisabled, isDisabled, isOpen, isAnnotationStylePopupDisabled } = this.props;
     const style = getAnnotationStyles(annotation);
     const hasStyle = Object.keys(style).length > 0;
@@ -181,8 +187,8 @@ class AnnotationPopup extends React.PureComponent {
 
     return (
       <div className={className} ref={this.popup} data-element="annotationPopup" style={{ left, top }} onClick={e => e.stopPropagation()} onMouseDown={e => e.stopPropagation()}>
-        {isStylePopupOpen
-          ? <AnnotationStylePopup annotation={annotation} style={style} isOpen={isOpen} />
+        {isStylePopupOpen ? <AnnotationStylePopup annotation={annotation} style={style} isOpen={isOpen} />
+          : isMovePopupOpen ? <AnnotationMovePopup annotation={annotation} style={style} isOpen={isOpen} />
           : <React.Fragment>
             {!isNotesPanelDisabled &&
               <ActionButton dataElement="annotationCommentButton" title="action.comment" img="ic_comment_black_24px" onClick={this.commentOnAnnotation} />
@@ -195,6 +201,9 @@ class AnnotationPopup extends React.PureComponent {
             }
             {canModify &&
               <ActionButton dataElement="annotationDeleteButton" title="action.delete" img="ic_delete_black_24px" onClick={this.deleteAnnotation} />
+            }
+            {canModify &&
+              <ActionButton dataElement="annotationMoveButton" title="action.move" img="ic_annotation_move_black_24px" onClick={this.openMovePopup} />
             }
           </React.Fragment>
         }

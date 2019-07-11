@@ -70,7 +70,6 @@ import isToolDisabled from './isToolDisabled';
 import setNotesPanelSort from './setNotesPanelSort';
 import addSortStrategy from './addSortStrategy';
 import updateOutlines from './updateOutlines';
-import updateTool from './updateTool';
 import print from './print';
 import showWarningMessage from './showWarningMessage';
 import enableRedaction from './enableRedaction';
@@ -150,7 +149,6 @@ export default {
   setNotesPanelSort,
   addSortStrategy,
   updateOutlines,
-  updateTool,
   print, 
   getZoomLevel,
   setZoomLevel,
